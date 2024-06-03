@@ -12,7 +12,7 @@ export type ParticipantWithStats =  {
   gamesThirdPlace: number;
   percentageWon: number;
   percentageWonString: string;
-  totalPoints: number;
+  normalizedPoints: number;
 };
 
 export const OHellColumns: ColumnDef<ParticipantWithStats>[] = [
@@ -37,7 +37,7 @@ export const OHellColumns: ColumnDef<ParticipantWithStats>[] = [
     cell: (info) => info.row.original.percentageWonString,
   },
   {
-    accessorKey: "totalPoints",
+    accessorKey: "normalizedPoints",
     header: ({ column }) => {
       return (
         <Button

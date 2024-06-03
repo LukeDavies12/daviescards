@@ -6,47 +6,51 @@ export type Database = {
           date: string
           id: number
           participants: string[]
+          second: string
+          second_score: number
+          third: string
+          third_score: number
+          winner: string
+          winner_score: number
         }
         Insert: {
           date: string
           id?: number
           participants: string[]
+          second: string
+          second_score: number
+          third: string
+          third_score: number
+          winner: string
+          winner_score: number
         }
         Update: {
           date?: string
           id?: number
           participants?: string[]
+          second?: string
+          second_score?: number
+          third?: string
+          third_score?: number
+          winner?: string
+          winner_score?: number
         }
         Relationships: []
       }
       players: {
         Row: {
-          game_id: number
           id: number
-          name: string
-          score: number
+          name: string | null
         }
         Insert: {
-          game_id: number
           id?: number
-          name: string
-          score: number
+          name?: string | null
         }
         Update: {
-          game_id?: number
           id?: number
-          name?: string
-          score?: number
+          name?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "players_game_id_fkey"
-            columns: ["game_id"]
-            isOneToOne: false
-            referencedRelation: "games"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
