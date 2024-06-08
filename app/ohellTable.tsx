@@ -22,7 +22,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { ParticipantWithStats } from "./ohellColumns";
+import { PlayerWithStats } from "./ohellColumns";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,7 +57,7 @@ export function OHellTable<TData, TValue>({
     }
   };
 
-  const greaterThanFilter: FilterFn<ParticipantWithStats> = (
+  const greaterThanFilter: FilterFn<PlayerWithStats> = (
     row,
     columnId,
     filterValue,
@@ -98,17 +98,16 @@ export function OHellTable<TData, TValue>({
       greaterThan: greaterThanFilter,
     },
   });
-
   React.useEffect(() => {
-    if (columnFilters.length > 0) {
+    if (columnFilters.length > -1) {
       setFilteredData(table.getRowModel().rows.map((row) => row.original));
     } else {
-      setFilteredData(data); // Reset to original data when filters are cleared
+      setFilteredData(data);
     }
   }, [columnFilters, data, table]);
 
   return (
-    <div>
+    <div className="w-full">
       <div className="mb-6 flex items-center justify-between">
         <Input
           type="number"
@@ -118,7 +117,7 @@ export function OHellTable<TData, TValue>({
           placeholder="Filter Table for Min. Games Played"
           min={0}
         />
-        <Button variant={"outline"} onClick={handleResetFilters}>
+        <Button variant={"ghost"} onClick={handleResetFilters}>
           Reset Table
         </Button>
       </div>

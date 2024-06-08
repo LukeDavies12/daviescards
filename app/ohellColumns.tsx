@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ColumnDef, FilterFnOption } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-export type ParticipantWithStats =  {
+export type PlayerWithStats =  {
   name: string;
   gamesPlayed: number;
   gamesWon: number;
@@ -12,10 +12,10 @@ export type ParticipantWithStats =  {
   gamesThirdPlace: number;
   percentageWon: number;
   percentageWonString: string;
-  normalizedPoints: number;
+  normedPoints: number;
 };
 
-export const OHellColumns: ColumnDef<ParticipantWithStats>[] = [
+export const OHellColumns: ColumnDef<PlayerWithStats>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -37,7 +37,7 @@ export const OHellColumns: ColumnDef<ParticipantWithStats>[] = [
     cell: (info) => info.row.original.percentageWonString,
   },
   {
-    accessorKey: "normalizedPoints",
+    accessorKey: "normedPoints",
     header: ({ column }) => {
       return (
         <Button
@@ -94,7 +94,7 @@ export const OHellColumns: ColumnDef<ParticipantWithStats>[] = [
   },
   {
     accessorKey: "gamesPlayed",
-    filterFn: "greaterThan" as FilterFnOption<ParticipantWithStats>,
+    filterFn: "greaterThan" as FilterFnOption<PlayerWithStats>,
     header: ({ column }) => {
       return (
         <Button

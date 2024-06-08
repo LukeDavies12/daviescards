@@ -17,11 +17,11 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <form action={login}>
-            <div className="space-y-2">
+            <div className="space-y-1">
               <Label htmlFor="username">Username</Label>
               <Input id="username" type="text" placeholder="Enter your username" />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1 mt-2">
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" placeholder="Enter your password" />
             </div>
@@ -38,7 +38,7 @@ const SubmitButton = () => {
   return (
     <Button
       type="submit"
-      className="w-full"
+      className="w-full mt-4"
     >
       Log{pending ? "ging" : ""} in
     </Button>
