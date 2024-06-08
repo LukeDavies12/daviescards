@@ -9,11 +9,11 @@ import { login } from './loginAction'
 
 export default function LoginPage() {
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-950">
+    <div className="flex mt-32 items-center justify-center bg-gray-100 dark:bg-gray-950">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
-          <CardDescription>Enter your username and password to access the admin dashboard.</CardDescription>
+          <CardDescription>Enter the username and password to access the admin dashboard.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <form action={login}>
