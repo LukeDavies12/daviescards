@@ -17,7 +17,7 @@ export default function SiteLayout({
         </div>
         <div className="flex items-center gap-4">
           <Link href="/" className="underline">Leaderboard</Link>
-          <Link href="/games" className="underline">Game Log</Link>
+          <Link href="/games" className="underline">Games Log</Link>
           <Link href="/admin" className="text-muted-foreground">Admin</Link>
         </div>
       </nav>

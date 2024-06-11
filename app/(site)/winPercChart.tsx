@@ -20,7 +20,7 @@ export const WinPercChart = ({ chartData }: WinPercChartProps) => {
       categories={["Win %"]}
       yAxisWidth={80}
       layout="vertical"
-      colors={["gray"]}
+      colors={["red"]}
     />
   )
 }

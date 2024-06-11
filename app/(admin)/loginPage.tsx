@@ -13,17 +13,17 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
-          <CardDescription>Enter the username and password to access the admin dashboard.</CardDescription>
+          <CardDescription>Enter your email and password to access the admin dashboard.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <form action={login}>
             <div className="space-y-1">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" type="text" placeholder="Enter your username" />
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" name="email" type="text" placeholder="Enter your email" />
             </div>
             <div className="space-y-1 mt-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="Enter your password" />
+              <Input id="password" name="password" type="password" placeholder="Enter your password" />
             </div>
             <SubmitButton />
           </form>
