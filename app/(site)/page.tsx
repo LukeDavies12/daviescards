@@ -9,7 +9,6 @@ interface DataResult {
   tableData: PlayerWithStats[];
 }
 
-
 async function getData(): Promise<DataResult> {
   const supabase = createClient();
   const { data: players, error: playersError } = await supabase

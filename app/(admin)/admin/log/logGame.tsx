@@ -18,17 +18,17 @@ export default function LogGame({ players }: { players: Tables<"players">[] }) {
         <Textarea name="players" placeholder="Player1, Player2, Player3, Player4" />
         <Label htmlFor="winner">Winner</Label>
         <Select name="qb_id" required value={winnerId} onValueChange={setWinnderId}>
-              <SelectTrigger tabIndex={0} id="qb_id">
-                <SelectValue placeholder="Choose Winner" />
-              </SelectTrigger>
-              <SelectContent>
-                {players.map((player: Tables<"players">) => (
-                  <SelectItem key={player.id} value={player.id.toString()}>
-                    {player.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <SelectTrigger tabIndex={0} id="qb_id">
+            <SelectValue placeholder="Choose Winner" />
+          </SelectTrigger>
+          <SelectContent>
+            {players.map((player: Tables<"players">) => (
+              <SelectItem key={player.id} value={player.id.toString()}>
+                {player.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </form>
   )
