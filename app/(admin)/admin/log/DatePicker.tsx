@@ -8,10 +8,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
+import { CalendarIcon } from "lucide-react"
 import React from "react"
 
-export default function DatePicker({ name }: { name: string }) {
-  const [date, setDate] = React.useState<Date>()
+export default function DatePicker({ name, onDateChange, required }: { name: string, onDateChange: (date: Date | undefined) => void, required?: boolean }) {
+  const [date, setDate] = React.useState<Date | undefined>()
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate)
+    onDateChange(selectedDate)
+  }
 
   return (
     <>
@@ -21,14 +27,15 @@ export default function DatePicker({ name }: { name: string }) {
             variant={"outline"}
             className={cn("w-[240px] justify-start text-left font-normal")}
           >
-            {name}
+            {date ? date.toLocaleDateString() : "Select Date"}
+            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar mode="single" initialFocus />
+          <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
         </PopoverContent>
       </Popover>
-      <input type="hidden" name={name} value={date?.toISOString()} />
+      <input type="hidden" name={name} value={date ? date.toISOString() : ''} required={required} />
     </>
   )
 }
