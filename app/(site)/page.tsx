@@ -1,3 +1,4 @@
+import { Tables } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { OHellColumns, PlayerWithStats } from "./ohellColumns";
@@ -28,12 +29,12 @@ async function getData(): Promise<DataResult> {
   }
 
   // Calculate player stats from games data
-  const playersWithStats = players.map(player => {
+  const playersWithStats = players.map((player: PlayerWithStats) => {
     // Provide a default value for name if it's null
     const playerName = player.name || "Unknown";
 
-    const playerGames = games.filter(game => game.participants.includes(playerName));
-    const stats = playerGames.reduce((acc, game) => {
+    const playerGames = games.filter((game: Tables<'games'>) => game.participants.includes(playerName));
+    const stats = playerGames.reduce((acc: any, game: Tables<'games'>) => {
       if (game.winner === playerName) {
         acc.wins += 1;
       } else if (game.second === playerName) {
@@ -52,7 +53,6 @@ async function getData(): Promise<DataResult> {
       : 0) * 10;
 
     return {
-      id: player.id,
       name: playerName, // Use the default value or non-null name
       gamesPlayed: gamesPlayed,
       gamesWon: stats.wins,
@@ -65,13 +65,13 @@ async function getData(): Promise<DataResult> {
   });
 
   // Create chartData from playersWithStats
-  const chartData = playersWithStats.map(player => ({
+  const chartData = playersWithStats.map((player: PlayerWithStats) => ({
     Player: player.name,
     "Win %": parseFloat(player.percentageWon.toFixed(2)) // Ensure it's a number, not a string
   }));
 
-  chartData.sort((a, b) => b["Win %"] - a["Win %"]);
-  playersWithStats.sort((a, b) => b.percentageWon - a.percentageWon);
+  chartData.sort((a: any, b: any) => b["Win %"] - a["Win %"]);
+  playersWithStats.sort((a: any, b: any) => b.percentageWon - a.percentageWon);
 
   return {
     chartData,

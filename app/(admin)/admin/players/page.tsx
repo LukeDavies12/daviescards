@@ -1,5 +1,6 @@
+import { Button } from '@/components/ui/button';
 import { createClient } from '@/utils/supabase/server';
-import NewPlayer from './newPlayer';
+import Link from 'next/link';
 
 export default async function Page() {
   const supabase = createClient()
@@ -18,7 +19,7 @@ export default async function Page() {
           </li>
         ))}
       </ul> 
-      <NewPlayer />
+      <Link href={"/admin/players/new"}><Button variant={"link"}>Add New Player</Button></Link>
     </div>
   )
 }
