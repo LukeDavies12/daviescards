@@ -1,16 +1,16 @@
-'use server';
+"use server"
 
+import { GameSchema } from "@/app/(admin)/admin/log/gameSchema";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { GameSchema } from "./gameSchema";
 
-export async function logGameAction(
-  state: { errors?: { [key: string]: string } } | null,
+export async function UpdateGameAction(
   formData: FormData
 ): Promise<{ errors?: { [key: string]: string } } | null> {
   const supabase = createClient();
 
+  const id = formData.get("id") as string;
   const date = new Date(formData.get("date") as string);
   const participants = formData.get("participants") as string;
   const winner = formData.get("winner") as string;
@@ -36,10 +36,11 @@ export async function logGameAction(
     validation.error.errors.forEach((err) => {
       errors[err.path[0] as string] = err.message;
     });
+    console.error("Validation Errors:", errors);
     return { errors };
   }
 
-  const participantNames = participants.split(',').map(name => name.trim());
+  const participantNames = participants.split(",").map((name) => name.trim());
   const playerNames = [
     ...new Set([winner, second, third, ...participantNames]),
   ];
@@ -50,6 +51,7 @@ export async function logGameAction(
     .in("name", playerNames);
 
   if (playerError) {
+    console.error("Player Fetch Error:", playerError.message);
     return {
       errors: { general: playerError.message },
     };
@@ -59,7 +61,9 @@ export async function logGameAction(
     (playerName) =>
       !players.some((player: { name: string }) => player.name === playerName)
   );
+
   if (missingPlayers.length > 0) {
+    console.error("Missing Players:", missingPlayers);
     return {
       errors: {
         general: `These players are not registered: ${missingPlayers.join(", ")}`,
@@ -78,16 +82,19 @@ export async function logGameAction(
     winner_score: validation.data.winner_score,
   };
 
-  const { error } = await supabase.from("games").insert(data);
+  const idAsNumber = parseInt(id);
+
+  const { data: returnGame, error } = await supabase.from("games").update(data).eq("id", idAsNumber).select();
 
   if (error) {
+    console.error("Game Update Error:", error.message);
     return {
       errors: { general: error.message },
     };
   }
 
-  revalidatePath("/admin/log");
-  redirect("/admin/log");
-
-  return null;
+  revalidatePath("/");
+  revalidatePath("/layout");
+  revalidatePath(`/admin/game/${id}/update`);
+  redirect(`/admin/game/${id}/update`);
 }

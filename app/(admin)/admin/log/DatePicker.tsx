@@ -35,7 +35,7 @@ export default function DatePicker({ name, onDateChange, required }: { name: str
           <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
         </PopoverContent>
       </Popover>
-      <input type="hidden" name={name} value={date ? date.toISOString() : ''} required={required} />
+      <input type="hidden" name={name} id={name} value={date ? date.toISOString() : ''} required={required} />
     </>
   )
 }

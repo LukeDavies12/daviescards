@@ -1,8 +1,8 @@
 import { Tables } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { GamesColumns } from "./gamesColumns";
-import { GamesTable } from "./gamesTable";
+import { AdminGamesColumns } from "./adminGamesColumns";
+import { AdminGamesTable } from "./adminGamesTable";
 
 async function getData() {
   const supabase = createClient();
@@ -35,7 +35,7 @@ export default async function Page() {
   return (
     <>
       <h1 className="font-bold self-start">Games Log</h1>
-      <GamesTable columns={GamesColumns} data={games} />
+      <AdminGamesTable columns={AdminGamesColumns} data={games} />
     </>
   );
 }

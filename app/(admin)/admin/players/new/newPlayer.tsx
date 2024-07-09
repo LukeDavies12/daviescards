@@ -10,7 +10,6 @@ import { NewPlayerAct } from "./newPlayterAct"
 
 export default function NewPlayer() {
   const [state, formAction] = useFormState(NewPlayerAct, null);
-  const { pending } = useFormStatus();
   const [open, setOpen] = useState(false);
 
   return (
@@ -19,8 +18,16 @@ export default function NewPlayer() {
         <Label htmlFor="name">Name</Label>
         <Input name="name" placeholder="Player Name" id="name" required />
         {state?.errors?.message && <p className="text-red-500">{state.errors.message}</p>}
-        <Button variant={"default"} className="w-full mt-4" disabled={pending}>{pending ? 'Adding' : 'Add'} New Player</Button>
+        <SubmitButton />
       </div>
     </form>
+  )
+}
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button variant={"default"} className="w-full mt-4" disabled={pending}>{pending ? 'Adding' : 'Add'} New Player</Button>
   )
 }

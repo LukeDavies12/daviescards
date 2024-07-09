@@ -1,12 +1,13 @@
 import { Tables } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import { NormPointsChartDataItem, PageCharts, WinPercChartDataItem } from "./charts";
 import { OHellColumns, PlayerWithStats } from "./ohellColumns";
 import { OHellTable } from "./ohellTable";
-import { ChartDataItem, WinPercChart } from "./winPercChart";
 
 interface DataResult {
-  chartData: ChartDataItem[];
+  chartData: WinPercChartDataItem[];
+  ptsData: NormPointsChartDataItem[];
   tableData: PlayerWithStats[];
 }
 
@@ -30,16 +31,17 @@ async function getData(): Promise<DataResult> {
 
   // Calculate player stats from games data
   const playersWithStats = players.map((player: PlayerWithStats) => {
-    // Provide a default value for name if it's null
     const playerName = player.name || "Unknown";
 
     const playerGames = games.filter((game: Tables<'games'>) => game.participants.includes(playerName));
     const stats = playerGames.reduce((acc: any, game: Tables<'games'>) => {
-      if (game.winner === playerName) {
+      if (game.winner.includes(playerName)) {
         acc.wins += 1;
-      } else if (game.second === playerName) {
+      }
+      if (game.second.includes(playerName)) {
         acc.secondPlace += 1;
-      } else if (game.third === playerName) {
+      }
+      if (game.third.includes(playerName)) {
         acc.thirdPlace += 1;
       }
       return acc;
@@ -53,7 +55,7 @@ async function getData(): Promise<DataResult> {
       : 0) * 10;
 
     return {
-      name: playerName, // Use the default value or non-null name
+      name: playerName,
       gamesPlayed: gamesPlayed,
       gamesWon: stats.wins,
       gamesSecondPlace: stats.secondPlace,
@@ -67,14 +69,21 @@ async function getData(): Promise<DataResult> {
   // Create chartData from playersWithStats
   const chartData = playersWithStats.map((player: PlayerWithStats) => ({
     Player: player.name,
-    "Win %": parseFloat(player.percentageWon.toFixed(2)) // Ensure it's a number, not a string
+    "Win %": parseFloat(player.percentageWon.toFixed(2))
+  }));
+
+  const ptsData = playersWithStats.map((player: PlayerWithStats) => ({
+    Player: player.name,
+    "Normalized Points": player.normedPoints
   }));
 
   chartData.sort((a: any, b: any) => b["Win %"] - a["Win %"]);
+  ptsData.sort((a: any, b: any) => b["Normalized Points"] - a["Normalized Points"]);
   playersWithStats.sort((a: any, b: any) => b.percentageWon - a.percentageWon);
 
   return {
     chartData,
+    ptsData,
     tableData: playersWithStats
   };
 }
@@ -85,7 +94,7 @@ export default async function Page() {
   return (
     <>
       <h1 className="font-bold self-start">O-Hell Leaderboard</h1>
-      <WinPercChart chartData={data.chartData} />
+      <PageCharts ptsData={data.ptsData} winData={data.chartData} />
       <OHellTable columns={OHellColumns} data={data.tableData} />
     </>
   );

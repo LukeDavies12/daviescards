@@ -4,7 +4,6 @@ const lettersOnlyRegex = /^[A-Za-z]+$/;
 
 export const GameSchema = z.object({
   date: z.date(),
-  id: z.number(),
   participants: z.string().refine(value => value.split(',').every(participant => lettersOnlyRegex.test(participant.trim())), {
     message: "Participants must be a comma-separated list of names containing only letters"
   }),
