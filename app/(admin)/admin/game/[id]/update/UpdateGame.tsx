@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useRef, useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import DatePicker from "./UpdateDatePicker";
 import { UpdateGameAction } from "./UpdateGameAction";
 
@@ -24,7 +24,19 @@ interface GameData {
 export default function UpdateGame({ game }: { game: GameData }) {
   const [date, setDate] = useState<Date | undefined>(new Date(game.date));
   const [formState, setFormState] = useState(game);
-  const ref = useRef<HTMLFormElement>(null);
+  const [formActionState, formAction] = useFormState(
+    async (state: any, payload: FormData) => {
+      try {
+        await UpdateGameAction(payload as FormData);
+        ref.current?.reset();
+        return null;
+      } catch (error) {
+        console.error("Failed to update game:", error);
+        return { errors: { form: "Failed to update game" } };
+      }
+    },
+    null
+  ); const ref = useRef<HTMLFormElement>(null);
 
   const handleDateChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -42,20 +54,13 @@ export default function UpdateGame({ game }: { game: GameData }) {
     }));
   };
 
-  const updateGame = async (formData: FormData) => {
+  const UpdateGame = async (formData: FormData) => {
     try {
       await UpdateGameAction(formData);
-      alert("Game updated successfully");
       ref.current?.reset();
     } catch (error) {
       console.error("Failed to update game:", error);
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(ref.current!);
-    updateGame(formData);
   };
 
   useEffect(() => {
@@ -63,7 +68,7 @@ export default function UpdateGame({ game }: { game: GameData }) {
   }, [game.date]);
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3" ref={ref}>
+    <form action={UpdateGame} className="flex flex-col gap-3" ref={ref}>
       <input type="hidden" name="id" value={game.id} />
       <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-1">
@@ -106,7 +111,7 @@ export default function UpdateGame({ game }: { game: GameData }) {
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
-  
+
   return (
     <Button className="w-full mt-4" type="submit" disabled={pending}>
       {pending ? 'Updating' : 'Update'} Game

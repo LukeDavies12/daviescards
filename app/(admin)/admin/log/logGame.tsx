@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useFormState, useFormStatus } from 'react-dom'
 import DatePicker from "./DatePicker"
 import { logGameAction } from "./logGameAction"
@@ -12,13 +12,21 @@ import { logGameAction } from "./logGameAction"
 export default function LogGame() {
   const [date, setDate] = useState<Date | undefined>()
   const [state, formAction] = useFormState(logGameAction, null)
+  const ref = useRef<HTMLFormElement>(null);
 
   const handleDateChange = (selectedDate: Date | undefined) => {
     setDate(selectedDate)
   }
 
+  function OnCreate(formData: FormData) {
+    (async () => {
+      const res = await formAction(formData)
+      ref.current?.reset()
+    })()
+  }
+
   return (
-    <form action={formAction} className="flex flex-col gap-3">
+    <form action={OnCreate} className="flex flex-col gap-3">
       <div className="flex flex-col gap-3 md:w-1/2">
         <div className="flex flex-col gap-1">
           <Label htmlFor="date">Date</Label>
