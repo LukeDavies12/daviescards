@@ -26,7 +26,7 @@ export default function LogGame() {
   }
 
   return (
-    <form action={OnCreate} className="flex flex-col gap-3">
+    <form action={OnCreate} ref={ref} className="flex flex-col gap-3">
       <div className="flex flex-col gap-3 md:w-1/2">
         <div className="flex flex-col gap-1">
           <Label htmlFor="date">Date</Label>
