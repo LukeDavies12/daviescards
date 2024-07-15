@@ -12,13 +12,13 @@ export default async function Page() {
   return (
     <div className="flex flex-col gap-3">
       <h1 className="font-bold self-start">Players</h1>
-      <ul className=' list-disc list-inside'>
+      <ol className=' list-disc list-inside'>
         {players?.map((player: any) => (
           <li key={player.id}>
             {player.name}
           </li>
         ))}
-      </ul> 
+      </ol> 
       <Link href={"/admin/players/new"}><Button variant={"link"}>Add New Player</Button></Link>
     </div>
   )
