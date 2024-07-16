@@ -34,7 +34,7 @@ export default async function AdminLayout({
   } else {
     return (
       <>
-        <nav className="flex justify-between items-center py-2 container mx-auto rounded-lg mt-2 px-4 bg-white">
+        <nav className="flex flex-col md:flew-row gap-2 justify-between items-center py-2 container mx-auto rounded-lg mt-2 px-4 bg-white">
           <div>
             <Link href="/" className="flex items-center gap-2 text-red-700 font-medium">
               <Image src="/davies-cards-logo.png" alt="Logo" width={50} height={50} />

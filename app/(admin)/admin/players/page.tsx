@@ -14,7 +14,7 @@ export default async function Page() {
       <h1 className="font-bold self-start">Players</h1>
       <ol className=' list-disc list-inside'>
         {players?.map((player: any) => (
-          <li key={player.id}>
+          <li key={player.id} className="list-decimal	py-1 text-neutral-600">
             {player.name}
           </li>
         ))}

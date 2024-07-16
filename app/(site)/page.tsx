@@ -66,25 +66,28 @@ async function getData(): Promise<DataResult> {
     };
   });
 
-  // Create chartData from playersWithStats
-  const chartData = playersWithStats.map((player: PlayerWithStats) => ({
+  // Filter players who have played 5 or more games
+  const filteredPlayersWithStats = playersWithStats.filter((player: PlayerWithStats) => player.gamesPlayed >= 5);
+
+  // Create chartData from filteredPlayersWithStats
+  const chartData = filteredPlayersWithStats.map((player: PlayerWithStats) => ({
     Player: player.name,
     "Win %": parseFloat(player.percentageWon.toFixed(2))
   }));
 
-  const ptsData = playersWithStats.map((player: PlayerWithStats) => ({
+  const ptsData = filteredPlayersWithStats.map((player: PlayerWithStats) => ({
     Player: player.name,
     "Normalized Points": player.normedPoints
   }));
 
   chartData.sort((a: any, b: any) => b["Win %"] - a["Win %"]);
   ptsData.sort((a: any, b: any) => b["Normalized Points"] - a["Normalized Points"]);
-  playersWithStats.sort((a: any, b: any) => b.percentageWon - a.percentageWon);
+  filteredPlayersWithStats.sort((a: any, b: any) => b.percentageWon - a.percentageWon);
 
   return {
     chartData,
     ptsData,
-    tableData: playersWithStats
+    tableData: filteredPlayersWithStats
   };
 }
 
