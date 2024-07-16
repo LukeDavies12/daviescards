@@ -21,6 +21,7 @@ export default function LogGame() {
   function OnCreate(formData: FormData) {
     (async () => {
       const res = await formAction(formData)
+      if(state?.errors) return
       ref.current?.reset()
     })()
   }
