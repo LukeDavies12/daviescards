@@ -1,5 +1,5 @@
 # Davies Cards
-A fullstack Next.js/Supabse app to log family card games. Link: https://daviescards.vercel.app/admin/game/62
+A fullstack Next.js/Supabse app to log family card games. Link: https://daviescards.vercel.app
 
 ## Features
 - Admin full CRUD on games and players
